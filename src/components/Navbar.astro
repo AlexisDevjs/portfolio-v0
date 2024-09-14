@@ -1,0 +1,48 @@
+---
+import LightIcon from "@/components/icons/LightIcon.astro";
+import MenuList from "@/components/MenuList.jsx";
+---
+
+<nav
+  class="fixed bottom-0 left-0 right-0 py-3 px-3 xs:px-5 sm:px-7 flex items-center justify-between md:sticky md:top-0 border-t border-t-gray-300 rounded-l-2xl rounded-r-2xl"
+>
+  <a href="/" class="flex items-center gap-2">
+    <img
+      src="/src/assets/avatar.webp"
+      alt="AlexisDev avatar"
+      class="size-7 rounded-full ring-2 ring-gray-500"
+    />
+    <h2>Alexis CT</h2>
+  </a>
+  <div class="flex gap-4">
+    <button id="theme-toggle" type="button" title="cambiar tema">
+      <LightIcon />
+    </button>
+    <MenuList client:load />
+  </div>
+</nav>
+
+<script>
+  const toggleButton = document.getElementById("theme-toggle");
+  const rootElement = document.documentElement;
+  const currentTheme = localStorage.getItem("theme");
+
+  if (
+    currentTheme === "dark" ||
+    (!currentTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)
+  ) {
+    rootElement.classList.add("dark");
+  } else {
+    rootElement.classList.remove("dark");
+  }
+
+  toggleButton?.addEventListener("click", () => {
+    if (rootElement.classList.contains("dark")) {
+      rootElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    } else {
+      rootElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    }
+  });
+</script>
